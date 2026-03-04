@@ -112,7 +112,7 @@ export default function ExecutiveView() {
   if (loading) {
     return (
       <div className="bg-white rounded-lg shadow p-6">
-        <p className="text-gray-500">Loading executive dashboard...</p>
+        <p className="text-gray-700">Loading executive dashboard...</p>
       </div>
     )
   }
@@ -121,12 +121,12 @@ export default function ExecutiveView() {
     <div className="space-y-6">
       <div className="bg-white rounded-lg shadow p-6">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Executive Overview</h1>
-        <p className="text-gray-600 mb-6">Organization-wide travel visibility</p>
+        <p className="text-gray-800 mb-6">Organization-wide travel visibility</p>
 
         {stats && (
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
             <div className="bg-gray-50 rounded-lg p-4">
-              <p className="text-sm text-gray-600">Total Trips</p>
+              <p className="text-sm text-gray-700 font-medium">Total Trips</p>
               <p className="text-3xl font-bold text-gray-900">{stats.total}</p>
             </div>
             <div className="bg-blue-50 rounded-lg p-4">
@@ -157,18 +157,18 @@ export default function ExecutiveView() {
             return (
               <div key={manager.id} className="border rounded-lg p-4">
                 <h3 className="font-semibold text-gray-900">{manager.name}</h3>
-                <p className="text-sm text-gray-500 mb-3">{manager._count.employees} team members</p>
+                <p className="text-sm text-gray-700 mb-3">{manager._count.employees} team members</p>
                 <div className="flex gap-4 text-sm">
                   <div>
-                    <span className="text-gray-500">Trips:</span>
+                    <span className="text-gray-700">Trips:</span>
                     <span className="font-medium ml-1">{managerStats.total}</span>
                   </div>
                   <div>
-                    <span className="text-blue-500">Upcoming:</span>
+                    <span className="text-blue-700">Upcoming:</span>
                     <span className="font-medium ml-1">{managerStats.upcoming}</span>
                   </div>
                   <div>
-                    <span className="text-red-500">Denied:</span>
+                    <span className="text-red-700">Denied:</span>
                     <span className="font-medium ml-1">{managerStats.denied}</span>
                   </div>
                 </div>
@@ -184,11 +184,11 @@ export default function ExecutiveView() {
           
           <div className="flex gap-4 ml-auto flex-wrap">
             <div>
-              <label className="text-sm text-gray-600 mr-2">Team:</label>
+              <label className="text-sm text-gray-700 mr-2">Team:</label>
               <select
                 value={filterManager}
                 onChange={(e) => setFilterManager(e.target.value)}
-                className="border border-gray-300 rounded px-3 py-1 text-sm"
+                className="border border-gray-300 rounded px-3 py-1 text-sm text-gray-900"
               >
                 <option value="all">All Teams</option>
                 {managers.map(m => (
@@ -198,11 +198,11 @@ export default function ExecutiveView() {
             </div>
             
             <div>
-              <label className="text-sm text-gray-600 mr-2">Status:</label>
+              <label className="text-sm text-gray-700 mr-2">Status:</label>
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="border border-gray-300 rounded px-3 py-1 text-sm"
+                className="border border-gray-300 rounded px-3 py-1 text-sm text-gray-900"
               >
                 <option value="all">All Statuses</option>
                 <option value="planned">Planned</option>
@@ -213,11 +213,11 @@ export default function ExecutiveView() {
             </div>
 
             <div>
-              <label className="text-sm text-gray-600 mr-2">Sort by:</label>
+              <label className="text-sm text-gray-700 mr-2">Sort by:</label>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="border border-gray-300 rounded px-3 py-1 text-sm"
+                className="border border-gray-300 rounded px-3 py-1 text-sm text-gray-900"
               >
                 <option value="date">Date</option>
                 <option value="manager">Manager</option>
@@ -231,18 +231,18 @@ export default function ExecutiveView() {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Team</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Employee</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Customer</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Dates</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Purpose</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Team</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Employee</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Customer</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Dates</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Purpose</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               {filteredRequests.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
+                  <td colSpan={6} className="px-4 py-8 text-center text-gray-700">
                     No travel requests match your filters.
                   </td>
                 </tr>
@@ -257,9 +257,9 @@ export default function ExecutiveView() {
                     </td>
                     <td className="px-4 py-4">
                       <div className="text-sm text-gray-900">{request.customerName}</div>
-                      <div className="text-xs text-gray-500">{request.customerLocation}</div>
+                      <div className="text-xs text-gray-700">{request.customerLocation}</div>
                     </td>
-                    <td className="px-4 py-4 text-sm text-gray-600">
+                    <td className="px-4 py-4 text-sm text-gray-800">
                       {new Date(request.travelDate).toLocaleDateString()} - {new Date(request.returnDate).toLocaleDateString()}
                     </td>
                     <td className="px-4 py-4">
@@ -284,7 +284,7 @@ export default function ExecutiveView() {
           </table>
         </div>
         
-        <div className="mt-4 text-sm text-gray-500">
+        <div className="mt-4 text-sm text-gray-700">
           Showing {filteredRequests.length} of {travelRequests.length} travel requests
         </div>
       </div>

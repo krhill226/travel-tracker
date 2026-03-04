@@ -121,7 +121,7 @@ export default function Home() {
           <select
             value={selectedEmployee || ''}
             onChange={(e) => setSelectedEmployee(Number(e.target.value))}
-            className="w-full max-w-md px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full max-w-md px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
           >
             <option value="">-- Select Employee --</option>
             {employees.map(emp => (
@@ -151,7 +151,7 @@ export default function Home() {
                   required
                   value={formData.customerName}
                   onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder-gray-500"
                   placeholder="e.g., Acme Corporation"
                 />
               </div>
@@ -164,7 +164,7 @@ export default function Home() {
                   required
                   value={formData.customerLocation}
                   onChange={(e) => setFormData({ ...formData, customerLocation: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder-gray-500"
                   placeholder="e.g., Chicago, IL"
                 />
               </div>
@@ -177,7 +177,7 @@ export default function Home() {
                   required
                   value={formData.travelDate}
                   onChange={(e) => setFormData({ ...formData, travelDate: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                 />
               </div>
               <div>
@@ -189,7 +189,7 @@ export default function Home() {
                   required
                   value={formData.returnDate}
                   onChange={(e) => setFormData({ ...formData, returnDate: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                 />
               </div>
             </div>
@@ -203,7 +203,7 @@ export default function Home() {
                 value={formData.reason}
                 onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder-gray-500"
                 placeholder="Describe the purpose of this customer visit..."
               />
             </div>
@@ -218,7 +218,7 @@ export default function Home() {
                     type="text"
                     value={item}
                     onChange={(e) => updateAgendaItem(index, e.target.value)}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder-gray-500"
                     placeholder={`Agenda item ${index + 1}`}
                   />
                 </div>
@@ -256,9 +256,9 @@ export default function Home() {
           <h2 className="text-xl font-bold text-gray-900 mb-4">Your Travel History</h2>
           
           {loading ? (
-            <p className="text-gray-500">Loading...</p>
+            <p className="text-gray-700">Loading...</p>
           ) : travelRequests.length === 0 ? (
-            <p className="text-gray-500">No travel requests yet. Submit your first one above!</p>
+            <p className="text-gray-700">No travel requests yet. Submit your first one above!</p>
           ) : (
             <div className="space-y-4">
               {travelRequests.map(request => (
@@ -266,13 +266,13 @@ export default function Home() {
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <h3 className="font-semibold text-lg">{request.customerName}</h3>
-                      <p className="text-gray-600">{request.customerLocation}</p>
+                      <p className="text-gray-800">{request.customerLocation}</p>
                     </div>
                     <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(request.status)}`}>
                       {request.status}
                     </span>
                   </div>
-                  <div className="text-sm text-gray-600 mb-2">
+                  <div className="text-sm text-gray-800 mb-2">
                     <span>{new Date(request.travelDate).toLocaleDateString()}</span>
                     <span className="mx-2">→</span>
                     <span>{new Date(request.returnDate).toLocaleDateString()}</span>
@@ -282,7 +282,7 @@ export default function Home() {
                   {request.agendaItems.length > 0 && (
                     <div className="mb-3">
                       <p className="text-sm font-medium text-gray-700 mb-1">Agenda:</p>
-                      <ul className="list-disc list-inside text-sm text-gray-600">
+                      <ul className="list-disc list-inside text-sm text-gray-800">
                         {request.agendaItems.map(item => (
                           <li key={item.id}>{item.description}</li>
                         ))}

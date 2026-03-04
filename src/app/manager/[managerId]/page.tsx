@@ -140,7 +140,7 @@ export default function ManagerDashboard() {
   if (loading) {
     return (
       <div className="bg-white rounded-lg shadow p-6">
-        <p className="text-gray-500">Loading dashboard...</p>
+        <p className="text-gray-700">Loading dashboard...</p>
       </div>
     )
   }
@@ -151,7 +151,7 @@ export default function ManagerDashboard() {
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">{managerName}&apos;s Team</h1>
-            <p className="text-gray-600">Travel Overview</p>
+            <p className="text-gray-800">Travel Overview</p>
           </div>
           <a href="/manager" className="text-blue-600 hover:text-blue-700 text-sm">
             ← Back to managers
@@ -161,7 +161,7 @@ export default function ManagerDashboard() {
         {stats && (
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
             <div className="bg-gray-50 rounded-lg p-4">
-              <p className="text-sm text-gray-600">Total Trips</p>
+              <p className="text-sm text-gray-700 font-medium">Total Trips</p>
               <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
             </div>
             <div className="bg-blue-50 rounded-lg p-4">
@@ -205,18 +205,18 @@ export default function ManagerDashboard() {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Employee</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dates</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reason</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Employee</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Customer</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Dates</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Reason</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredRequests.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
+                  <td colSpan={6} className="px-6 py-8 text-center text-gray-700">
                     No travel requests found for this filter.
                   </td>
                 </tr>
@@ -228,11 +228,11 @@ export default function ManagerDashboard() {
                     </td>
                     <td className="px-6 py-4">
                       <div className="text-gray-900">{request.customerName}</div>
-                      <div className="text-sm text-gray-500">{request.customerLocation}</div>
+                      <div className="text-sm text-gray-700">{request.customerLocation}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                       <div>{new Date(request.travelDate).toLocaleDateString()}</div>
-                      <div className="text-gray-400">to {new Date(request.returnDate).toLocaleDateString()}</div>
+                      <div className="text-gray-700">to {new Date(request.returnDate).toLocaleDateString()}</div>
                     </td>
                     <td className="px-6 py-4">
                       <div className="text-sm text-gray-900 max-w-xs truncate" title={request.reason}>
@@ -258,7 +258,7 @@ export default function ManagerDashboard() {
                       <select
                         value={request.status}
                         onChange={(e) => updateStatus(request.id, e.target.value)}
-                        className="text-sm border border-gray-300 rounded px-2 py-1"
+                        className="text-sm border border-gray-300 rounded px-2 py-1 text-gray-900"
                       >
                         <option value="planned">Planned</option>
                         <option value="in-progress">In Progress</option>
@@ -279,7 +279,7 @@ export default function ManagerDashboard() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4">
             <h2 className="text-lg font-bold text-gray-900 mb-4">Record Denial</h2>
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-gray-700 mb-4">
               Recording denial for {selectedRequest?.employee.name}&apos;s visit to {selectedRequest?.customerName}
             </p>
             
@@ -292,7 +292,7 @@ export default function ManagerDashboard() {
                   value={denialReason}
                   onChange={(e) => setDenialReason(e.target.value)}
                   rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder-gray-500"
                   placeholder="Why was this visit denied?"
                 />
               </div>
@@ -305,7 +305,7 @@ export default function ManagerDashboard() {
                   type="date"
                   value={rescheduledDate}
                   onChange={(e) => setRescheduledDate(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                 />
               </div>
             </div>
