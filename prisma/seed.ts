@@ -3,61 +3,102 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-  console.log('Seeding database...')
+  console.log('Seeding database with real team data...')
 
   // Create managers
   const managers = await Promise.all([
     prisma.manager.upsert({
-      where: { email: 'sarah.johnson@company.com' },
+      where: { email: 'krhill@axon.com' },
       update: {},
-      create: { name: 'Sarah Johnson', email: 'sarah.johnson@company.com' }
+      create: { name: 'Kristine Hill', email: 'krhill@axon.com' }
     }),
     prisma.manager.upsert({
-      where: { email: 'michael.chen@company.com' },
+      where: { email: 'pcapizzi@axon.com' },
       update: {},
-      create: { name: 'Michael Chen', email: 'michael.chen@company.com' }
+      create: { name: 'Phil Capizzi', email: 'pcapizzi@axon.com' }
     }),
     prisma.manager.upsert({
-      where: { email: 'emily.williams@company.com' },
+      where: { email: 'edale@axon.com' },
       update: {},
-      create: { name: 'Emily Williams', email: 'emily.williams@company.com' }
+      create: { name: 'Emilyn Dale', email: 'edale@axon.com' }
     }),
     prisma.manager.upsert({
-      where: { email: 'david.martinez@company.com' },
+      where: { email: 'kash@axon.com' },
       update: {},
-      create: { name: 'David Martinez', email: 'david.martinez@company.com' }
+      create: { name: 'Kirsten Ash', email: 'kash@axon.com' }
     }),
   ])
 
   console.log(`Created ${managers.length} managers`)
 
-  // Sample employee names for each team
-  const teamMembers = [
-    // Sarah's team (10 people)
-    ['Alex Thompson', 'Jamie Rodriguez', 'Chris Parker', 'Morgan Lee', 'Taylor Kim',
-     'Jordan Brown', 'Casey Wilson', 'Riley Davis', 'Quinn Anderson', 'Avery Thomas'],
-    // Michael's team (10 people)
-    ['Sam Miller', 'Drew Jackson', 'Blake Harris', 'Reese Martin', 'Skyler Garcia',
-     'Charlie Robinson', 'Peyton Clark', 'Cameron Lewis', 'Sydney Walker', 'Dakota Hall'],
-    // Emily's team (10 people)
-    ['Jessie Allen', 'Pat Young', 'Robin King', 'Terry Wright', 'Frankie Scott',
-     'Sage Green', 'River Adams', 'Phoenix Baker', 'Emery Nelson', 'Finley Carter'],
-    // David's team (10 people)
-    ['Logan Mitchell', 'Hayden Perez', 'Parker Roberts', 'Sawyer Turner', 'Rowan Phillips',
-     'Harley Campbell', 'Ashton Edwards', 'Kendall Collins', 'Blair Stewart', 'Lane Morris']
+  // Map manager names to their records
+  const managerMap: Record<string, typeof managers[0]> = {}
+  for (const mgr of managers) {
+    managerMap[mgr.name] = mgr
+  }
+
+  // All employees with their managers
+  const employeeData = [
+    // Kristine Hill's team
+    { name: 'Alex Grega', email: 'agrega@axon.com', manager: 'Kristine Hill' },
+    { name: 'Ashley Vaghela', email: 'avaghela@axon.com', manager: 'Kristine Hill' },
+    { name: 'Gabriel Sigman', email: 'gsigman@axon.com', manager: 'Kristine Hill' },
+    { name: 'Joe Holeman', email: 'jholeman@axon.com', manager: 'Kristine Hill' },
+    { name: 'Kathryn Shipley Berry', email: 'kberry@axon.com', manager: 'Kristine Hill' },
+    { name: 'Katy Cronk', email: 'kcronk@axon.com', manager: 'Kristine Hill' },
+    { name: 'Margie Herrman', email: 'mherrman@axon.com', manager: 'Kristine Hill' },
+    { name: 'Megan Youtkus', email: 'myoutkus@axon.com', manager: 'Kristine Hill' },
+    { name: 'Michael Cao', email: 'mcao@axon.com', manager: 'Kristine Hill' },
+    { name: 'Pat Salas', email: 'psalas@axon.com', manager: 'Kristine Hill' },
+    { name: 'Tyler Deaver', email: 'tdeaver@axon.com', manager: 'Kristine Hill' },
+
+    // Phil Capizzi's team
+    { name: 'Aman Singh', email: 'asingh@axon.com', manager: 'Phil Capizzi' },
+    { name: 'Brandon Wahl', email: 'bwahl@axon.com', manager: 'Phil Capizzi' },
+    { name: 'Ed Shuman', email: 'eshuman@axon.com', manager: 'Phil Capizzi' },
+    { name: 'Edward Hallahan', email: 'ehallahan@axon.com', manager: 'Phil Capizzi' },
+    { name: 'Lauren Jackson', email: 'ljackson@axon.com', manager: 'Phil Capizzi' },
+    { name: 'Linda Tran', email: 'ltran@axon.com', manager: 'Phil Capizzi' },
+    { name: 'Robert Otero', email: 'rotero@axon.com', manager: 'Phil Capizzi' },
+    { name: 'Sayalee Lanjewar', email: 'slanjewar@axon.com', manager: 'Phil Capizzi' },
+
+    // Emilyn Dale's team
+    { name: 'Brooke Deneen', email: 'bdeneen@axon.com', manager: 'Emilyn Dale' },
+    { name: 'Eric Mergens', email: 'emergens@axon.com', manager: 'Emilyn Dale' },
+    { name: 'Harrison Brandenburg', email: 'hbrandenburg@axon.com', manager: 'Emilyn Dale' },
+    { name: 'Hayden Carper', email: 'hcarper@axon.com', manager: 'Emilyn Dale' },
+    { name: 'Jessica Pressley', email: 'jpressley@axon.com', manager: 'Emilyn Dale' },
+    { name: 'Jonathan Chen', email: 'jchen@axon.com', manager: 'Emilyn Dale' },
+    { name: 'Terrence Smith', email: 'tsmith@axon.com', manager: 'Emilyn Dale' },
+    { name: 'Liz Dziallo', email: 'ldziallo@axon.com', manager: 'Emilyn Dale' },
+    { name: 'Marcus Coulter', email: 'mcoulter@axon.com', manager: 'Emilyn Dale' },
+    { name: 'Mark Canenguez', email: 'mcanenguez@axon.com', manager: 'Emilyn Dale' },
+    { name: 'Michi Slaughter', email: 'mslaughter@axon.com', manager: 'Emilyn Dale' },
+    { name: 'Mike Schweiger', email: 'mschweiger@axon.com', manager: 'Emilyn Dale' },
+    { name: 'Shekirah Mckenzie', email: 'smckenzie@axon.com', manager: 'Emilyn Dale' },
+    { name: 'Young Kim', email: 'ykim@axon.com', manager: 'Emilyn Dale' },
+
+    // Kirsten Ash's team
+    { name: 'Mark Wesolowski', email: 'mwesolowski@axon.com', manager: 'Kirsten Ash' },
+    { name: 'April Larsh', email: 'alarsh@axon.com', manager: 'Kirsten Ash' },
+    { name: 'Chad Alcorn', email: 'calcorn@axon.com', manager: 'Kirsten Ash' },
+    { name: 'Daniel Ruales', email: 'druales@axon.com', manager: 'Kirsten Ash' },
+    { name: 'Meedy Abdulsattar', email: 'mabdulsattar@axon.com', manager: 'Kirsten Ash' },
+    { name: 'Melissa Clemens', email: 'mclemens@axon.com', manager: 'Kirsten Ash' },
+    { name: 'Mirage Jelani', email: 'mjelani@axon.com', manager: 'Kirsten Ash' },
+    { name: 'Nikko Elliott', email: 'nelliott@axon.com', manager: 'Kirsten Ash' },
   ]
 
   let employeeCount = 0
-  for (let i = 0; i < managers.length; i++) {
-    const manager = managers[i]
-    for (const name of teamMembers[i]) {
-      const email = name.toLowerCase().replace(' ', '.') + '@company.com'
+  for (const emp of employeeData) {
+    const manager = managerMap[emp.manager]
+    if (manager) {
       await prisma.employee.upsert({
-        where: { email },
-        update: {},
+        where: { email: emp.email },
+        update: { name: emp.name, managerId: manager.id },
         create: {
-          name,
-          email,
+          name: emp.name,
+          email: emp.email,
           managerId: manager.id
         }
       })
@@ -66,76 +107,6 @@ async function main() {
   }
 
   console.log(`Created ${employeeCount} employees`)
-
-  // Create some sample travel requests
-  const employees = await prisma.employee.findMany({ take: 10 })
-  
-  const sampleCustomers = [
-    { name: 'Acme Corporation', location: 'Chicago, IL' },
-    { name: 'TechStart Inc', location: 'San Francisco, CA' },
-    { name: 'Global Dynamics', location: 'New York, NY' },
-    { name: 'Midwest Manufacturing', location: 'Detroit, MI' },
-    { name: 'Pacific Solutions', location: 'Seattle, WA' },
-    { name: 'Southern Energy', location: 'Houston, TX' },
-    { name: 'Northeast Healthcare', location: 'Boston, MA' },
-    { name: 'Mountain Tech', location: 'Denver, CO' },
-  ]
-
-  const reasons = [
-    'Quarterly business review and relationship building',
-    'Product implementation support',
-    'New feature training and demonstration',
-    'Issue resolution and technical support',
-    'Contract renewal discussion',
-    'Strategic planning session',
-    'System upgrade assistance',
-    'Customer feedback collection'
-  ]
-
-  const statuses = ['planned', 'in-progress', 'completed', 'denied']
-
-  for (let i = 0; i < 15; i++) {
-    const employee = employees[i % employees.length]
-    const customer = sampleCustomers[i % sampleCustomers.length]
-    const status = statuses[Math.floor(Math.random() * statuses.length)]
-    
-    const travelDate = new Date()
-    travelDate.setDate(travelDate.getDate() + Math.floor(Math.random() * 60) - 30)
-    
-    const returnDate = new Date(travelDate)
-    returnDate.setDate(returnDate.getDate() + Math.floor(Math.random() * 3) + 1)
-
-    const request = await prisma.travelRequest.create({
-      data: {
-        employeeId: employee.id,
-        customerName: customer.name,
-        customerLocation: customer.location,
-        travelDate,
-        returnDate,
-        reason: reasons[i % reasons.length],
-        status,
-        agendaItems: {
-          create: [
-            { description: 'Meet with stakeholders' },
-            { description: 'Review current implementation' },
-            { description: 'Discuss future roadmap' }
-          ]
-        }
-      }
-    })
-
-    if (status === 'denied') {
-      await prisma.denial.create({
-        data: {
-          travelRequestId: request.id,
-          denialReason: 'Customer requested to reschedule due to internal scheduling conflict',
-          rescheduledDate: new Date(travelDate.getTime() + 14 * 24 * 60 * 60 * 1000)
-        }
-      })
-    }
-  }
-
-  console.log('Created sample travel requests')
   console.log('Database seeding complete!')
 }
 
