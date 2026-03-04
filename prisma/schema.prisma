@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Manager {
+  id        Int        @id @default(autoincrement())
+  name      String
+  email     String     @unique
+  createdAt DateTime   @default(now())
+  employees Employee[]
+}
+
+model Employee {
+  id             Int             @id @default(autoincrement())
+  name           String
+  email          String          @unique
+  managerId      Int
+  manager        Manager         @relation(fields: [managerId], references: [id])
+  createdAt      DateTime        @default(now())
+  travelRequests TravelRequest[]
+}
+
+model TravelRequest {
+  id               Int          @id @default(autoincrement())
+  employeeId       Int
+  employee         Employee     @relation(fields: [employeeId], references: [id])
+  customerName     String
+  customerLocation String
+  travelDate       DateTime
+  returnDate       DateTime
+  reason           String
+  status           String       @default("planned") // planned, in-progress, completed, cancelled, denied
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  agendaItems      AgendaItem[]
+  denial           Denial?
+}
+
+model AgendaItem {
+  id              Int           @id @default(autoincrement())
+  travelRequestId Int
+  travelRequest   TravelRequest @relation(fields: [travelRequestId], references: [id], onDelete: Cascade)
+  description     String
+  completed       Boolean       @default(false)
+}
+
+model Denial {
+  id              Int           @id @default(autoincrement())
+  travelRequestId Int           @unique
+  travelRequest   TravelRequest @relation(fields: [travelRequestId], references: [id], onDelete: Cascade)
+  denialReason    String
+  rescheduledDate DateTime?
+  createdAt       DateTime      @default(now())
+}
