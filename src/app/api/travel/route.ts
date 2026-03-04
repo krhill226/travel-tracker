@@ -93,7 +93,7 @@ export async function PATCH(request: NextRequest) {
       }
     })
 
-    if (status === 'denied' && denialReason) {
+    if ((status === 'denied' || status === 'cancelled') && denialReason) {
       await prisma.denial.upsert({
         where: { travelRequestId: id },
         create: {

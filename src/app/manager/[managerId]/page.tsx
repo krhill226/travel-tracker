@@ -39,9 +39,10 @@ export default function ManagerDashboard() {
   const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState('all')
   const [managerName, setManagerName] = useState('')
-  const [showDenialModal, setShowDenialModal] = useState(false)
+  const [showReasonModal, setShowReasonModal] = useState(false)
   const [selectedRequest, setSelectedRequest] = useState<TravelRequest | null>(null)
-  const [denialReason, setDenialReason] = useState('')
+  const [pendingStatus, setPendingStatus] = useState<string>('')
+  const [statusReason, setStatusReason] = useState('')
   const [rescheduledDate, setRescheduledDate] = useState('')
 
   useEffect(() => {
@@ -90,10 +91,11 @@ export default function ManagerDashboard() {
   }
 
   const updateStatus = async (requestId: number, newStatus: string) => {
-    if (newStatus === 'denied') {
+    if (newStatus === 'denied' || newStatus === 'cancelled') {
       const request = travelRequests.find(r => r.id === requestId)
       setSelectedRequest(request || null)
-      setShowDenialModal(true)
+      setPendingStatus(newStatus)
+      setShowReasonModal(true)
       return
     }
 
@@ -111,16 +113,16 @@ export default function ManagerDashboard() {
     }
   }
 
-  const submitDenial = async () => {
-    if (!selectedRequest || !denialReason) return
+  const submitStatusWithReason = async () => {
+    if (!selectedRequest || !statusReason) return
 
     const response = await fetch('/api/travel', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         id: selectedRequest.id,
-        status: 'denied',
-        denialReason,
+        status: pendingStatus,
+        denialReason: statusReason,
         rescheduledDate: rescheduledDate || null
       })
     })
@@ -130,9 +132,10 @@ export default function ManagerDashboard() {
       setTravelRequests(travelRequests.map(req => 
         req.id === selectedRequest.id ? updated : req
       ))
-      setShowDenialModal(false)
+      setShowReasonModal(false)
       setSelectedRequest(null)
-      setDenialReason('')
+      setPendingStatus('')
+      setStatusReason('')
       setRescheduledDate('')
     }
   }
@@ -275,54 +278,64 @@ export default function ManagerDashboard() {
         </div>
       </div>
 
-      {showDenialModal && (
+      {showReasonModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4">
-            <h2 className="text-lg font-bold text-gray-900 mb-4">Record Denial</h2>
+            <h2 className="text-lg font-bold text-gray-900 mb-4">
+              {pendingStatus === 'denied' ? 'Record Denial' : 'Record Cancellation'}
+            </h2>
             <p className="text-sm text-gray-700 mb-4">
-              Recording denial for {selectedRequest?.employee.name}&apos;s visit to {selectedRequest?.customerName}
+              {pendingStatus === 'denied' 
+                ? `Recording denial for ${selectedRequest?.employee.name}'s visit to ${selectedRequest?.customerName}`
+                : `Recording cancellation for ${selectedRequest?.employee.name}'s visit to ${selectedRequest?.customerName}`
+              }
             </p>
             
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Denial Reason *
+                  {pendingStatus === 'denied' ? 'Denial Reason *' : 'Cancellation Reason *'}
                 </label>
                 <textarea
-                  value={denialReason}
-                  onChange={(e) => setDenialReason(e.target.value)}
+                  value={statusReason}
+                  onChange={(e) => setStatusReason(e.target.value)}
                   rows={3}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 placeholder-gray-500"
-                  placeholder="Why was this visit denied?"
+                  placeholder={pendingStatus === 'denied' ? "Why was this visit denied?" : "Why is this visit being cancelled?"}
                 />
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Rescheduled Date (optional)
-                </label>
-                <input
-                  type="date"
-                  value={rescheduledDate}
-                  onChange={(e) => setRescheduledDate(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
-                />
-              </div>
+              {pendingStatus === 'denied' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Rescheduled Date (optional)
+                  </label>
+                  <input
+                    type="date"
+                    value={rescheduledDate}
+                    onChange={(e) => setRescheduledDate(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                  />
+                </div>
+              )}
             </div>
 
             <div className="flex gap-3 mt-6">
               <button
-                onClick={submitDenial}
-                disabled={!denialReason}
-                className="flex-1 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition disabled:bg-gray-400"
+                onClick={submitStatusWithReason}
+                disabled={!statusReason}
+                className={`flex-1 text-white px-4 py-2 rounded-md transition disabled:bg-gray-400 ${
+                  pendingStatus === 'denied' ? 'bg-red-600 hover:bg-red-700' : 'bg-gray-600 hover:bg-gray-700'
+                }`}
               >
-                Record Denial
+                {pendingStatus === 'denied' ? 'Record Denial' : 'Record Cancellation'}
               </button>
               <button
                 onClick={() => {
-                  setShowDenialModal(false)
+                  setShowReasonModal(false)
                   setSelectedRequest(null)
-                  setDenialReason('')
+                  setPendingStatus('')
+                  setStatusReason('')
                   setRescheduledDate('')
                 }}
                 className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition"
