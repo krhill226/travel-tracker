@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -34,7 +35,7 @@ model TravelRequest {
   travelDate       DateTime
   returnDate       DateTime
   reason           String
-  status           String       @default("planned") // planned, in-progress, completed, cancelled, denied
+  status           String       @default("planned")
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
   agendaItems      AgendaItem[]

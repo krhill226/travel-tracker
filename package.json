@@ -9,13 +9,16 @@
     "lint": "next lint",
     "db:push": "prisma db push",
     "db:seed": "npx tsx prisma/seed.ts",
+    "db:seed-turso": "npx tsx scripts/seed-turso.ts",
     "db:studio": "prisma studio"
   },
   "dependencies": {
+    "@libsql/client": "^0.17.0",
+    "@prisma/adapter-libsql": "^7.4.2",
+    "@prisma/client": "^5.14.0",
     "next": "^14.2.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "@prisma/client": "^5.14.0"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/node": "^20.12.0",
