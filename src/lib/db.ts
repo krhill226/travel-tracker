@@ -2,6 +2,8 @@ import { PrismaClient } from '@prisma/client'
 import { PrismaLibSql } from '@prisma/adapter-libsql'
 import { createClient } from '@libsql/client'
 
+// Database connection for Turso (production) or SQLite (development)
+
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
